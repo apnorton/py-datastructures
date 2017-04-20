@@ -1,6 +1,6 @@
 import unittest
 from itertools import combinations
-from datastructures.trees import DisjointSet
+from datastructures.sets import DisjointSet
 
 class TestDisjointSet(unittest.TestCase):
 
@@ -20,6 +20,35 @@ class TestDisjointSet(unittest.TestCase):
     ds.join(0, 4)
     self.assertTrue(ds.query(0, 4))
     self.assertTrue(ds.query(4, 9))
+
+  def test_get_sets(self):
+    ds = DisjointSet(10)
+    ds.join(0, 1)
+    ds.join(0, 2)
+    ds.join(0, 3)
+    ds.join(5, 6)
+    ds.join(6, 7)
+    ds.join(4, 8)
+
+    program_result = ds.get_sets()
+    human_result = [{0, 1, 2, 3}, {4, 8}, {5, 6, 7}, {9}]
+    
+    for s in human_result:
+      self.assertTrue(s in program_result)
+    
+    for s in program_result:
+      self.assertTrue(s in human_result)
+
+  def test_len(self):
+    ds = DisjointSet(10)
+    ds.join(0, 1)
+    ds.join(0, 2)
+    ds.join(0, 3)
+    ds.join(5, 4)
+    ds.join(5, 7)
+
+    self.assertEqual(len(ds), 5)
+
 
 
 if __name__ == '__main__':
